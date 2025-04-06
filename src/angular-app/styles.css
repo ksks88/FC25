@@ -1,0 +1,270 @@
+/* @import '@angular/material/prebuilt-themes/indigo-pink.css'; */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+@font-face {
+  font-family: "bootstrap-icons";
+  src: url("/assets/fonts/bootstrap-icons.woff2") format("woff2"),
+       url("/assets/fonts/bootstrap-icons.woff") format("woff");
+}
+
+/* Custom styles */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #f5f5f5;
+  --text-color: #333;
+  --error-color: #dc3545;
+  --success-color: #28a745;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.auth-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  min-width: 600px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h2 {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.auth-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  height: auto;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #3a7bc8;
+  transform: translateY(-2px);
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+  color: #3a7bc8;
+  text-decoration: underline;
+}
+
+.invalid-feedback {
+  color: var(--error-color);
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-right: none;
+  color: #6c757d;
+}
+
+.input-group .form-control {
+  border-left: none;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 10px;
+  }
+  
+  .auth-card {
+    min-width: auto;
+    padding: 20px;
+  }
+  
+  .form-control, .btn-primary {
+    padding: 10px 15px;
+  }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Make form fields bigger */
+.mat-mdc-form-field {
+  width: 100%;
+  font-size: 16px;
+  display: block;
+}
+
+/* Increase input field height and width */
+.mat-mdc-text-field-wrapper {
+  height: 65px !important;
+  padding: 0 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Make input text bigger and adjust padding */
+.mat-mdc-input-element {
+  font-size: 16px !important;
+  line-height: 24px !important;
+  padding: 0 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Adjust form field padding */
+.mat-mdc-form-field-infix {
+  padding: 12px 0 !important;
+  min-height: 65px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Make buttons bigger */
+.mat-mdc-raised-button {
+  font-size: 16px !important;
+  padding: 8px 24px !important;
+  min-height: 45px !important;
+}
+
+/* Make card title bigger */
+.mat-mdc-card-title {
+  font-size: 24px !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Make link text bigger */
+a.mat-mdc-button {
+  font-size: 16px !important;
+}
+
+/* Ensure input field has enough space */
+.mat-mdc-form-field-subscript-wrapper {
+  padding: 0 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure form takes full width */
+form {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Ensure card content takes full width */
+mat-card-content {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+} 
