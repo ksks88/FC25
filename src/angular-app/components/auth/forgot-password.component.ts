@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../src/app/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -34,13 +35,22 @@ import { Router } from '@angular/router';
             </div>
           </div>
 
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <div class="alert alert-success" *ngIf="successMessage">
+            {{ successMessage }}
+          </div>
+
           <div class="d-grid gap-2">
             <button 
               type="submit" 
               class="btn btn-primary"
-              [disabled]="forgotPasswordForm.invalid"
+              [disabled]="forgotPasswordForm.invalid || isLoading"
             >
-              Send Reset Instructions
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ isLoading ? 'Sending...' : 'Send Reset Instructions' }}
             </button>
           </div>
 
@@ -55,10 +65,14 @@ import { Router } from '@angular/router';
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
+  isLoading = false;
+  errorMessage = '';
+  successMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
@@ -68,9 +82,27 @@ export class ForgotPasswordComponent {
   get email() { return this.forgotPasswordForm.get('email'); }
 
   onSubmit() {
+    console.log('Form submitted, valid:', this.forgotPasswordForm.valid);
     if (this.forgotPasswordForm.valid) {
-      // Handle password reset logic here
-      console.log('Form submitted:', this.forgotPasswordForm.value);
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.successMessage = '';
+      
+      const { email } = this.forgotPasswordForm.value;
+      console.log('Sending password reset request to API');
+      
+      this.authService.resetPassword(email).subscribe({
+        next: (response) => {
+          console.log('Password reset request successful:', response);
+          this.successMessage = 'Password reset instructions have been sent to your email.';
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Password reset request failed:', error);
+          this.errorMessage = error.error?.message || 'Password reset request failed. Please try again.';
+          this.isLoading = false;
+        }
+      });
     }
   }
 } 

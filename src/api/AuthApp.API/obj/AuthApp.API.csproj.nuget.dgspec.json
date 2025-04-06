@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Code\\FC25\\src\\AuthApp.API\\AuthApp.API.csproj": {}
+    "C:\\Code\\FC25\\src\\api\\AuthApp.API\\AuthApp.API.csproj": {}
   },
   "projects": {
-    "C:\\Code\\FC25\\src\\AuthApp.API\\AuthApp.API.csproj": {
+    "C:\\Code\\FC25\\src\\api\\AuthApp.API\\AuthApp.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Code\\FC25\\src\\AuthApp.API\\AuthApp.API.csproj",
+        "projectUniqueName": "C:\\Code\\FC25\\src\\api\\AuthApp.API\\AuthApp.API.csproj",
         "projectName": "AuthApp.API",
-        "projectPath": "C:\\Code\\FC25\\src\\AuthApp.API\\AuthApp.API.csproj",
+        "projectPath": "C:\\Code\\FC25\\src\\api\\AuthApp.API\\AuthApp.API.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Code\\FC25\\src\\AuthApp.API\\obj\\",
+        "outputPath": "C:\\Code\\FC25\\src\\api\\AuthApp.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -50,6 +50,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FirebaseAdmin": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.7, )"

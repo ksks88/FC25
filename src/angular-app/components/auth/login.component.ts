@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService, LoginResponse } from '../../src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -55,13 +56,18 @@ import { Router } from '@angular/router';
             </div>
           </div>
 
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
           <div class="d-grid gap-2">
             <button 
               type="submit" 
               class="btn btn-primary"
-              [disabled]="loginForm.invalid"
+              [disabled]="loginForm.invalid || isLoading"
             >
-              Sign In
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ isLoading ? 'Signing in...' : 'Sign In' }}
             </button>
           </div>
 
@@ -77,10 +83,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  isLoading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -92,9 +101,27 @@ export class LoginComponent {
   get password() { return this.loginForm.get('password'); }
 
   onSubmit() {
+    console.log('Form submitted, valid:', this.loginForm.valid);
     if (this.loginForm.valid) {
-      // Handle login logic here
-      console.log('Form submitted:', this.loginForm.value);
+      this.isLoading = true;
+      this.errorMessage = '';
+      
+      const { email, password } = this.loginForm.value;
+      console.log('Sending login request to API');
+      
+      this.authService.login(email, password).subscribe({
+        next: (response: LoginResponse) => {
+          console.log('Login successful:', response);
+          // Store the token or user info in localStorage/sessionStorage
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/dashboard']); // Navigate to dashboard or home page
+        },
+        error: (error: any) => {
+          console.error('Login failed:', error);
+          this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+          this.isLoading = false;
+        }
+      });
     }
   }
 } 

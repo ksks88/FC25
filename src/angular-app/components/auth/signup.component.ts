@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService, LoginResponse } from '../../src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -76,13 +77,18 @@ import { Router } from '@angular/router';
             </div>
           </div>
 
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
           <div class="d-grid gap-2">
             <button 
               type="submit" 
               class="btn btn-primary"
-              [disabled]="signupForm.invalid"
+              [disabled]="signupForm.invalid || isLoading"
             >
-              Create Account
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ isLoading ? 'Creating Account...' : 'Create Account' }}
             </button>
           </div>
 
@@ -97,10 +103,13 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
   signupForm: FormGroup;
+  isLoading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -120,9 +129,27 @@ export class SignupComponent {
   }
 
   onSubmit() {
+    console.log('Form submitted, valid:', this.signupForm.valid);
     if (this.signupForm.valid) {
-      // Handle signup logic here
-      console.log('Form submitted:', this.signupForm.value);
+      this.isLoading = true;
+      this.errorMessage = '';
+      
+      const { email, password } = this.signupForm.value;
+      console.log('Sending registration request to API');
+      
+      this.authService.register(email, password).subscribe({
+        next: (response: LoginResponse) => {
+          console.log('Registration successful:', response);
+          // Store the token or user info in localStorage/sessionStorage
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/dashboard']); // Navigate to dashboard or home page
+        },
+        error: (error: any) => {
+          console.error('Registration failed:', error);
+          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          this.isLoading = false;
+        }
+      });
     }
   }
 } 
